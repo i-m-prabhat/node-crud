@@ -1,4 +1,6 @@
 const ProductModel = require("../model/ProductModel");
+const path = require("path");
+const fs = require("fs");
 
 const ProductController = {
     getProduct: async (req, res, next) =>
@@ -179,6 +181,36 @@ const ProductController = {
                 console.log("Exception Occured");
             }
         })
+    },
+    //Upload Method form
+    uploadSingleImageform: (req, res, next) =>
+    {
+        const filePath = path.join(__dirname, '../pages/index.html');
+        fs.readFile(filePath, "utf-8", (error, data) =>
+        {
+            if (error == null)
+            {
+                res.send(data);
+            }
+        })
+    },
+    uploadFile: (req, res, next) =>
+    {
+        // console.log(req.file);
+        if (req.file)
+        {
+            let ext = req.file.originalname.split(".")[1];
+            let targetFileName = req.file.filename + '.' + ext;
+
+            fs.rename(req.file.path, `${req.file.destination}/${targetFileName}`, (err, data) =>
+            {
+                if (err == null)
+                {
+                    res.send("<h1>file uploaded Successfully</h1>")
+                }
+            })
+        }
+
     }
 }
 
