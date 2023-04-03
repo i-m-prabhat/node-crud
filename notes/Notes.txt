@@ -1,0 +1,53 @@
+Working with Multer :-
+***********************
+multer is a middleware package used to perform file uploading in server
+
+concept behind file uploading:-
+*********************************
+
+xyz file local system : different machine
+                        |
+                        |
+                       copy
+                        |
+                        |
+Another Machine : server on port : 8080
+public
+    |uploads
+        |1.png 2.png aforApple,jpg............etc.
+
+        Problem :- we cannot upload, large amount of data in mongodb atlas because of size restriction.
+        Atlas free version = 1gb of free space.
+        if you buy, Enterprice solution or aws server.
+        they give you memory in Terabyte.
+
+        in That case you can only store the data in local temporay space and save the filename as text in mongodb.
+
+
+Using multer you can upload single/multiple files.
+
+to upload single file : we use upload.single('input-file-name');
+to upload multiple file : we use upload.multiple('input-file-name')folder.
+
+
+steps to file uploads:-
+1. public
+    |uploads
+
+2. npm install multer
+3. create multer instance
+    const upload = multer({
+        dest:"public/uploads"
+    });
+    Eg :-
+    <input type="file" name="image" />
+4. Router.post('/add-img',upload.single('image'),(req,res)=>{
+    console.log(req.file);
+})
+
+Problem : file which will be upload is not of readable format
+since this file does not have any extension. that is why,
+this file won't be readable.
+
+if you goto file, and rename the file with extension you want.
+you can read the file.
